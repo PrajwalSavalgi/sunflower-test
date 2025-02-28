@@ -33,7 +33,7 @@ jobs:
           bundle exec fastlane debug
 
       - name: Upload APK as Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android-apk
           path: app/build/outputs/apk/debug/app-debug.apk
