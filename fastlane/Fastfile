@@ -1,38 +1,18 @@
-name: Android CI
+default_platform(:android)
 
-on:
-  push:
-    branches:
-      - main
-      - dev
-  pull_request:
-    branches:
-      - main
-      - dev
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
 
-jobs:
-  build:
-    name: Build Android APK
-    runs-on: ubuntu-latest
+  desc "Build Debug APK"
+  lane :debug do
+    gradle(task: "clean assembleDebug")
+  end
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Set up Gradle cache
-        uses: gradle/gradle-build-action@v2
-
-      - name: Install Fastlane
-        run: |
-          gem install bundler:2.4.22
-          bundle install
-
-      - name: Run Fastlane Debug Build
-        run: |
-          bundle exec fastlane debug
+  desc "Build Release APK"
+  lane :release do
+    gradle(task: "clean assembleRelease")
+  end
+end
