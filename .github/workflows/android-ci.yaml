@@ -13,7 +13,7 @@ on:
 jobs:
   build:
     name: Build Android APK
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04 # Updated to avoid brownout issues
 
     steps:
       - name: Checkout repository
@@ -28,14 +28,16 @@ jobs:
       - name: Set up Gradle cache
         uses: gradle/gradle-build-action@v2
 
-      - name: Install Fastlane
+      - name: Install Ruby & Fastlane
         run: |
-          gem install bundler:2.4.22
-          bundle install
+          sudo apt-get update -y
+          sudo apt-get install -y ruby-full
+          gem install bundler
+          bundle install || bundle update  # Ensure dependencies are properly installed
 
       - name: Run Fastlane Debug Build
         run: |
-          bundle exec fastlane debug
+          bundle exec fastlane debug || fastlane debug  # Run Fastlane, retry if needed
 
       - name: Upload APK as Artifact
         uses: actions/upload-artifact@v3
