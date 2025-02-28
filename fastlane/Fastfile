@@ -1,0 +1,18 @@
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Build Debug APK"
+  lane :debug do
+    gradle(task: "clean assembleDebug")
+  end
+
+  desc "Build Release APK"
+  lane :release do
+    gradle(task: "clean assembleRelease")
+  end
+end

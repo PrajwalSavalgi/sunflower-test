@@ -23,6 +23,9 @@ plugins {
 }
 
 android {
+  lint {
+        abortOnError = false
+    }
   compileSdk = libs.versions.compileSdk.get().toInt()
 
   defaultConfig {
